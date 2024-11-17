@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  car_nginx:
+    image: nginx:latest
+    container_name: car_nginx
+    depends_on:
+      - car_service
+    volumes:
+      - ./src/static/css:/var/www/static
+      - ./server/nginx.conf:/etc/nginx/nginx.conf
+      - ./server/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+
+  car_service:
+    build: ./src/
+    container_name: car_service
+    depends_on:
+      - car_postgres
+    env_file:
+      - ./src/configs/.env.example
+    ports:
+      - "8000:8000"
+
+  car_postgres:
+    image: postgres:15
+    container_name: car_postgres
+    volumes:
+      - /postgresql/car_data:/var/lib/postgresql/car_data
+    env_file:
+      - ./src/configs/.env.example
