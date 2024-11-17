@@ -7,7 +7,6 @@ services:
       - car_service
     volumes:
       - ./src/static/:/var/www/static
-      - ./src/static/css:/var/www/static
       - ./server/nginx.conf:/etc/nginx/nginx.conf
       - ./server/conf.d:/etc/nginx/conf.d
     ports:
