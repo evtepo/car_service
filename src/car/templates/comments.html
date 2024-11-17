@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Комментарии</h1>
+<ul>
+    {% for comment in comments %}
+        <li>
+            <strong>{{ comment.author.username }}:</strong> {{ comment.content }}
+            <small>{{ comment.created_at }}</small>
+            {% if comment.author == user %}
+                <a href="{% url 'comment_edit' comment.pk %}">Редактировать</a> |
+                <a href="{% url 'comment_delete' comment.pk %}">Удалить</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'comment_add' car_id=car.id %}">Добавить комментарий</a>
+{% endblock %}

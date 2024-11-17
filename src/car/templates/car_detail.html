@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ car.make }}: {{ car.model }}</h1>
+<p>{{ car.description }}</p>
+
+<h3>Комментарии</h3>
+<ul>
+    {% for comment in car.comments.all %}
+        <li>
+            <strong>{{ comment.author.username }}:</strong> {{ comment.content }}
+            <small>{{ comment.created_at }}</small>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+    <form method="post" action="{% url 'add_comment' car.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить комментарий</button>
+    </form>
+{% endif %}
+
+<a href="{% url 'car_edit' car.pk %}">Редактировать автомобиль</a> |
+<a href="{% url 'car_delete' car.pk %}">Удалить автомобиль</a>
+
+<a href="{% url 'cars' %}">
+    <button>Назад</button>
+</a>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="alert {{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+    {% if car %}
+        Редактировать автомобиль
+    {% else %}
+        Добавить автомобиль
+    {% endif %}
+</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+
+{% if car %}
+<a href="{% url 'car_detail' car.id %}">
+    <button>Отмена</button>
+</a>
+{% else %}
+<a href="{% url 'cars' %}">
+    <button>Отмена</button>
+</a>
+{% endif %}
+
+{% endblock %}
